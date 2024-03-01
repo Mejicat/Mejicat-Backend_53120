@@ -28,27 +28,27 @@ export default class ProductManager {
     }
 
     readProducts = async () => {
-        let answer = await fs.readFile (this.path, "utf-8")
-        return JSON.parse(answer)
+        let answerReadProducts = await fs.readFile (this.path, "utf-8")
+        return JSON.parse(answerReadProducts)
     }
     
     getProducts = async () => {
-        let answer2 = await this.readProducts()
-        return console.log (answer2)
+        let productsResults = await this.readProducts()
+        return console.log (productsResults)
     } 
 
     getProductsById = async (id) => {
-        let answer3 = await this.readProducts()
-        if (!answer3.find (product => product.id === id)) {
+        let productsFounded = await this.readProducts()
+        if (!productsFounded.find (product => product.id === id)) {
             console.log ("Producto no encontrado")
         } else {
-            console.log (answer3.find (product => product.id === id))
+            console.log (productsFounded.find (product => product.id === id))
         }
     }
 
     deleteProductsById = async (id) => {
-        let answer3 = await this.readProducts()
-        let productFilter = answer3.filter(product => product.id ==! id)
+        let productsFounded = await this.readProducts()
+        let productFilter = productsFounded.filter(product => product.id ==! id)
         await fs.writeFile(this.path, JSON.stringify(productFilter))
         console.log ("Producto eliminado")
     }
@@ -64,7 +64,7 @@ export default class ProductManager {
     }
 }
 
-const productsFinal = new ProductManager
+//const productsFinal = new ProductManager
 
 /*/ TEST PARA CORROBORAR QUE SE AGREGAN PRODUCTOS AL ARRAY
 productsFinal.addProduct ("Monster Jam","Monster Mutt",12400,"imagen1","MNJ5050",10)
@@ -79,7 +79,7 @@ productsFinal.addProduct("Monster Jam","Megalodon",12400,"imagen9","MNJ5058",25)
 productsFinal.addProduct("Monster Jam","Glaze Machine",12400,"imagen10","MNJ5059",20)
 */
 
-productsFinal.getProducts()
+//productsFinal.getProducts()
 
 // TEST SOBRE BÚSQUEDA POR ID
 //productsFinal.getProductsById(2)

@@ -44,20 +44,20 @@ class ProductManager {
 
 const products = new ProductManager
 // Primera llamada --> arreglo vacío
-console.log(products.getProducts())
+//console.log(products.getProducts())
 
 // Agregamos productos
-products.addProduct("Monster Jam","Monster Mutt",12300,"imagen1","MNJ5050",10)
-products.addProduct("Monster Jam","Northern Nightmare",12300,"imagen2","MNJ5051",2)
+//products.addProduct("Monster Jam","Monster Mutt",12300,"imagen1","MNJ5050",10)
+//products.addProduct("Monster Jam","Northern Nightmare",12300,"imagen2","MNJ5051",2)
 
 // Segunda llamada --> arreglo con productos
-console.log(products.getProducts())
+//console.log(products.getProducts())
 
 // Validación de CODE repetido
-products.addProduct("Monster Jam","Ranger Rescue",12300,"imagen3","MNJ5051",5)
+//products.addProduct("Monster Jam","Ranger Rescue",12300,"imagen3","MNJ5051",5)
 
 // Búsqueda de producto por Id
-products.getProductById(2)
+//products.getProductById(2)
 
 // Búsqueda de producto por Id no encontrado
-products.getProductById(5)
+//products.getProductById(5)
