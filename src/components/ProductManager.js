@@ -1,7 +1,7 @@
 import {promises as fs} from "fs"
 import { json } from "stream/consumers"
 
-class ProductManager {
+export default class ProductManager {
     constructor () {
         this.path = "./products.txt"
         this.products = []
@@ -66,10 +66,20 @@ class ProductManager {
 
 const productsFinal = new ProductManager
 
-// TEST PARA CORROBORAR QUE SE AGREGAN PRODUCTOS AL ARRAY
-//productsFinal.addProduct ("Monster Jam","Monster Mutt",12300,"imagen1","MNJ5050",10)
-//productsFinal.addProduct("Monster Jam","Northern Nightmare",12300,"imagen2","MNJ5051",2)
-//productsFinal.getProducts()
+/*/ TEST PARA CORROBORAR QUE SE AGREGAN PRODUCTOS AL ARRAY
+productsFinal.addProduct ("Monster Jam","Monster Mutt",12400,"imagen1","MNJ5050",10)
+productsFinal.addProduct("Monster Jam","Northern Nightmare",12400,"imagen2","MNJ5051",25)
+productsFinal.addProduct("Monster Jam","Grave Digger",12400,"imagen3","MNJ5052",25)
+productsFinal.addProduct("Monster Jam","Lucas Stabilizer",12400,"imagen4","MNJ5053",20)
+productsFinal.addProduct("Monster Jam","Backwards Bob",12400,"imagen5","MNJ5054",15)
+productsFinal.addProduct("Monster Jam","El Toro Loco",12400,"imagen6","MNJ5055",10)
+productsFinal.addProduct("Monster Jam","Soldier Fortune",12400,"imagen7","MNJ5056",10)
+productsFinal.addProduct("Monster Jam","Earth Shaker",12400,"imagen8","MNJ5057",20)
+productsFinal.addProduct("Monster Jam","Megalodon",12400,"imagen9","MNJ5058",25)
+productsFinal.addProduct("Monster Jam","Glaze Machine",12400,"imagen10","MNJ5059",20)
+*/
+
+productsFinal.getProducts()
 
 // TEST SOBRE BÚSQUEDA POR ID
 //productsFinal.getProductsById(2)
