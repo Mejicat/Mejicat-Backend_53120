@@ -1,16 +1,26 @@
-import {promises as fs} from "fs"
+import {promises as fs, writeFile} from "fs"
 import { json } from "stream/consumers"
 
 export default class ProductManager {
     constructor () {
-        this.path = "./products.txt"
+        this.path = "./products.json"
         this.products = []
+        this.id = 0
     }
 
     static id = 0
 
+    readProducts = async () => {
+        let answerReadProducts = await fs.readFile (this.path, "utf-8")
+        return JSON.parse(answerReadProducts)
+    }
+
+    writeProducts = async (product) => {
+        await fs.writeFile (this.path, JSON.stringify(product))
+    }
+
     addProduct = async (title, description, price, thumbnail, code, stock) => {
-        ProductManager.id ++
+        this.id ++
         
         let newProduct = {
             title, 
@@ -19,17 +29,18 @@ export default class ProductManager {
             thumbnail, 
             code, 
             stock,
-            id: ProductManager.id
+            id: this.id
         }
 
-        this.products.push (newProduct)
-
-        await fs.writeFile (this.path, JSON.stringify (this.products))
+        let currentProducts = await this.readProducts()
+        let productALL = [... currentProducts, newProduct]
+        await this.writeProducts (productALL)
+        return "Producto agregado"
     }
 
-    readProducts = async () => {
-        let answerReadProducts = await fs.readFile (this.path, "utf-8")
-        return JSON.parse(answerReadProducts)
+    exist = async (id) => {
+        let products = await this.readProducts()
+        return products.find (prod => prod.id == id)
     }
     
     getProducts = async () => {
@@ -38,35 +49,35 @@ export default class ProductManager {
     } 
 
     getProductsById = async (id) => {
-        let productsFounded = await this.readProducts()
-        if (!productsFounded.find (product => product.id === id)) {
-            console.log ("Producto no encontrado")
-        } else {
-            console.log (productsFounded.find (product => product.id === id))
-        }
+        let productById = await this.exist(id)
+        if (!productById) return "Producto no encontrado"
+        return productById
     }
-
+    
     deleteProductsById = async (id) => {
         let productsFounded = await this.readProducts()
-        let productFilter = productsFounded.filter(product => product.id ==! id)
-        await fs.writeFile(this.path, JSON.stringify(productFilter))
-        console.log ("Producto eliminado")
+        let productFilter = productsFounded.some(product => product.id === id)
+        if (productFilter) {
+            let filteredProducts = productsFounded.filter(product => product.id != id)
+            await fs.writeFile(this.path, JSON.stringify(filteredProducts))
+            return "Producto eliminado"
+        }
+        return "El producto a eliminar es inexistente"
     }
 
     updateProducts = async ({id, ...product}) => {
+        let productById = await this.exist(id)
+        if (!productById) return "Producto no encontrado"
         await this.deleteProductsById(id)
         let oldProduct = await this.readProducts ()
-        let productsModified = [
-            {...product, id},
-            ...oldProduct
-        ]
-        await fs.writeFile (this.path, JSON.stringify (productsModified))
+        let products = [{...product, id:id}, ...oldProduct]
+        await this.writeProducts (products)
+        return "Producto actualizado"
     }
 }
 
-//const productsFinal = new ProductManager
-
-/*/ TEST PARA CORROBORAR QUE SE AGREGAN PRODUCTOS AL ARRAY
+//const productsFinal = new ProductManager()
+/* TEST PARA CORROBORAR QUE SE AGREGAN PRODUCTOS AL ARRAY
 productsFinal.addProduct ("Monster Jam","Monster Mutt",12400,"imagen1","MNJ5050",10)
 productsFinal.addProduct("Monster Jam","Northern Nightmare",12400,"imagen2","MNJ5051",25)
 productsFinal.addProduct("Monster Jam","Grave Digger",12400,"imagen3","MNJ5052",25)
@@ -77,7 +88,7 @@ productsFinal.addProduct("Monster Jam","Soldier Fortune",12400,"imagen7","MNJ505
 productsFinal.addProduct("Monster Jam","Earth Shaker",12400,"imagen8","MNJ5057",20)
 productsFinal.addProduct("Monster Jam","Megalodon",12400,"imagen9","MNJ5058",25)
 productsFinal.addProduct("Monster Jam","Glaze Machine",12400,"imagen10","MNJ5059",20)
-*/
+/*
 
 //productsFinal.getProducts()
 
