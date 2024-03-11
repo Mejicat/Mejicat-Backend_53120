@@ -19,15 +19,28 @@ export default class ProductManager {
         await fs.writeFile (this.path, JSON.stringify(product))
     }
 
-    addProduct = async (title, description, price, thumbnail, code, stock) => {
-        this.id ++
-        
-        let newProduct = {
-            title, 
-            description, 
-            price, 
-            thumbnail, 
-            code, 
+    addProduct = async (newProduct) => {
+        this.id++
+    
+        const {
+            title,
+            description,
+            price,
+            thumbnail,
+            code,
+            stock
+        } = newProduct
+    
+        if (!title || !description || !price || !thumbnail || !code || !stock) {
+            return "Todos los campos del Producto son obligatorios"
+        }
+
+        const productToAdd = {
+            title,
+            description,
+            price,
+            thumbnail,
+            code,
             stock,
             id: this.id
         }

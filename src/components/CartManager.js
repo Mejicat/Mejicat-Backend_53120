@@ -46,8 +46,7 @@ class CartManager{
         let cartsALL = await this.readCarts()
         let cartFilter = cartsALL.filter(cart => cart.id != cartId)
 
-        if(cartById.products.some(prod => prod.id === productId)) {
-            
+        if(cartById.products.some(prod => prod.id == productId)) {
             cartById.products.forEach(prod => {
                 if (prod.id == productId) {prod.quantity++}
             })
