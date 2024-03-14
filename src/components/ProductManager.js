@@ -46,7 +46,7 @@ export default class ProductManager {
         }
 
         let currentProducts = await this.readProducts()
-        let productALL = [... currentProducts, newProduct]
+        let productALL = [... currentProducts, productToAdd]
         await this.writeProducts (productALL)
         return "Producto agregado"
     }
@@ -68,23 +68,28 @@ export default class ProductManager {
     }
     
     deleteProductsById = async (id) => {
+        id = parseInt(id)
         let productsFounded = await this.readProducts()
         let productFilter = productsFounded.some(product => product.id === id)
         if (productFilter) {
-            let filteredProducts = productsFounded.filter(product => product.id != id)
+            let filteredProducts = productsFounded.filter(product => product.id !== id)
             await fs.writeFile(this.path, JSON.stringify(filteredProducts))
             return "Producto eliminado"
         }
         return "El producto a eliminar es inexistente"
     }
 
-    updateProducts = async ({id, ...product}) => {
+    updateProducts = async (id, updatedProduct) => {
         let productById = await this.exist(id)
         if (!productById) return "Producto no encontrado"
-        await this.deleteProductsById(id)
-        let oldProduct = await this.readProducts ()
-        let products = [{...product, id:id}, ...oldProduct]
-        await this.writeProducts (products)
+        let products = await this.readProducts()
+        const updatedProducts = products.map(product => {
+            if (product.id === id) {
+                return { ...product, ...updatedProduct }
+            }
+            return product
+        })
+        await this.writeProducts(updatedProducts)
         return "Producto actualizado"
     }
 }

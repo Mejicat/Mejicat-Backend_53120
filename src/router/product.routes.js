@@ -10,30 +10,30 @@ productRouter.get ("/", async (req, res) => {
     if (!limit) return res.send (await productsFinal.readProducts())
     let allProducts = await productsFinal.readProducts()
     let productLimit = allProducts.slice (0,limit)
-    res.send (productLimit)
+    res.json (productLimit)
 })
 
 productRouter.get ("/:id", async (req, res) => {
     let id = parseInt(req.params.id)
     let allProducts = await productsFinal.readProducts()
     let productById = allProducts.find (product => product.id === id)
-    res.send (productById)
+    res.json (productById)
 })
 
 productRouter.post("/", async (req,res) => {
     let newProduct = req.body
-    res.send (await productsFinal.addProduct (newProduct))
+    res.json (await productsFinal.addProduct (newProduct))
 })
 
 productRouter.put("/:id", async (req, res) => {
-    let id = req.params.id
+    const id = parseInt(req.params.id)
     let updateProducts = req.body
-    res.send (await productsFinal.updateProducts(id,updateProducts))
+    res.json (await productsFinal.updateProducts(id,updateProducts))
 })
 
 productRouter.delete ("/:id", async (req, res) => {
     let id = req.params.id
-    res.send (await productsFinal.deleteProductsById(id))
+    res.json (await productsFinal.deleteProductsById(id))
 })
 
 export default productRouter
