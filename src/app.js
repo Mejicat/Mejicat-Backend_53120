@@ -3,7 +3,7 @@ import productRouter from "./router/product.routes.js"
 import cartRouter from "./router/carts.routes.js"
 import { engine } from "express-handlebars"
 import * as path from "path"
-import __dirname from "./utils.js"
+import { __dirname } from "./utils.js"
 import ProductManager from "./components/ProductManager.js"
 
 const app = express ()
@@ -28,7 +28,7 @@ app.use("/", express.static(__dirname + "/public"))
 
 app.get("/", async(req,res) => {
     let allProducts = await productsFinal.getProducts()
-    res.render ("home",{
+    res.render ("index",{
         title : "Express | Handlebars",
         products : allProducts
     })
