@@ -9,30 +9,41 @@ socket.on("receiveProducts", (products) => {
 })
 
 function addProduct() {
+  const titleInput = document.getElementById("title")
+  const descriptionInput = document.getElementById("description")
+  const priceInput = document.getElementById("price")
+  const codeInput = document.getElementById("code")
+  const stockInput = document.getElementById("stock")
+  const thumbnailsInput = document.getElementById("thumbnails")
+
+  // Verifico si algún elemento es null antes de acceder a su propiedad value
+  if (!titleInput || !descriptionInput || !priceInput || !codeInput || !stockInput || !thumbnailsInput) {
+    console.error("Uno o más elementos del formulario no existen en el DOM.")
+    return;
+  }
+
   const formData = new FormData()
-  formData.append("title", document.getElementById("title").value)
-  formData.append("description", document.getElementById("description").value)
-  formData.append("price", document.getElementById("price").value)
-  formData.append("code", document.getElementById("code").value)
-  formData.append("stock", document.getElementById("stock").value)
-  formData.append("category", document.getElementById("category").value)
-  formData.append("thumbnails", document.getElementById("thumbnails").files[0])
+  formData.append("title", titleInput.value)
+  formData.append("description", descriptionInput.value)
+  formData.append("price", priceInput.value)
+  formData.append("code", codeInput.value)
+  formData.append("stock", stockInput.value)
+  formData.append("thumbnails", thumbnailsInput.value)
 
-  socket.emit("addProduct", formData);
+  socket.emit("addProduct", formData)
 
-  // Reset form fields
-  document.getElementById("title").value = ""
-  document.getElementById("description").value = ""
-  document.getElementById("price").value = ""
-  document.getElementById("thumbnails").value = ""
-  document.getElementById("code").value = ""
-  document.getElementById("stock").value = ""
-  document.getElementById("category").value = ""
+  // Reseteo los campos del formulario
+  titleInput.value = ""
+  descriptionInput.value = ""
+  priceInput.value = "";
+  thumbnailsInput.value = ""
+  codeInput.value = ""
+  stockInput.value = ""
 }
 
-function deleteProductsById(productId) {
-  socket.emit("deleteProductById", +productId)
-  getProducts();
+function deleteProduct(productId) {
+  socket.emit("deleteProduct", +productId)
+  getProducts()
 }
 
 function getProducts() {
@@ -55,7 +66,7 @@ function renderProducts(products) {
         <p class="product-code">Code: ${product.code}</p>
       </div>
       <div class="product-actions">
-        <button class="delete-button" onclick="deleteProduct(${product.id})">Delete</button>
+        <button class="delete-button" onclick="deleteProduct(${product.id})">Borrar</button>
       </div>
     </div>
     `

@@ -51,9 +51,6 @@ class CartManager{
                 if (prod.id == productId) {prod.quantity++}
             })
             
-            //let moreProductInCart = cartById.products.find(prod => prod.id === productId)
-            //moreProductInCart.quantity++
-            
             let cartsConcat = [cartById, ...cartFilter]
             await this.writeCarts(cartsConcat)
             return "Producto sumado al carrito"

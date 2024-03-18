@@ -9,7 +9,7 @@ productRouter.get("/", async (req, res) => {
     let limit = +req.query.limit
     const products = await productsFinal.getProducts(limit)
     res.render("home", {
-      style: "index.css",
+      style: "styles.css",
       products: products,
       layout: "products",
     })
@@ -35,7 +35,7 @@ productRouter.put("/:id", async (req, res) => {
 
 productRouter.delete ("/:id", async (req, res) => {
     let id = req.params.id
-    res.json (await productsFinal.deleteProductsById(id))
+    res.json (await productsFinal.deleteProduct(id))
 })
 
 export default productRouter

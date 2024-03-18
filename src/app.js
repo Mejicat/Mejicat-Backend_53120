@@ -19,6 +19,9 @@ const productsFinal = new ProductManager()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+app.use("/api/products",productRouter)
+app.use("/api/cart",cartRouter)
+
 //Handlebars
 app.engine("handlebars",engine())
 app.set("view engine", "handlebars")
@@ -58,18 +61,12 @@ app.get("/", (req, res) => {
   `)
 })
 
-// Dejo habilitada la consulta por ID
-app.get("/:id", async(req,res) => {
-    let product = await productsFinal.getProductsById(req.params.id)
-    res.send (product)
-    })
-
-/*app.get("/realtimeproducts", async (req, res) => {
-    res.render("/views/realtimeproducts", {
+app.get("/realtimeproducts", async (req, res) => {
+    res.render("realtimeproducts", {
       style: "styles.css",
       layout: "products",
     })
-  })*/
+  })
 
 const socketServer = new Server(httpServer)
 socketServer.on("connection", (socket) => {
@@ -79,8 +76,8 @@ socketServer.on("connection", (socket) => {
       await productsFinal.addProduct(newProduct)
     })
   
-    socket.on("deleteProductsById", async (productId) => {
-      await productsFinal.deleteProductsById(productId)
+    socket.on("deleteProduct", async (productId) => {
+      await productsFinal.deleteProduct(productId)
     })
   
     socket.on("getProducts", async () => {
@@ -90,8 +87,7 @@ socketServer.on("connection", (socket) => {
 })
 
 
-app.use("/api/products",productRouter)
-app.use("/api/cart",cartRouter)
+
 
 
 
