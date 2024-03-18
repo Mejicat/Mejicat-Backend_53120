@@ -58,12 +58,12 @@ export default class ProductManager {
     
     getProducts = async () => {
         let productsResults = await this.readProducts()
-        return console.log (productsResults)
+        return productsResults
     } 
 
     getProductsById = async (id) => {
         let productById = await this.exist(id)
-        if (!productById) return "Producto no encontrado"
+        if (!productById) return "Producto no encontrado 2"
         return productById
     }
     
@@ -81,7 +81,7 @@ export default class ProductManager {
 
     updateProducts = async (id, updatedProduct) => {
         let productById = await this.exist(id)
-        if (!productById) return "Producto no encontrado"
+        if (!productById) return "Producto no encontrado 1"
         let products = await this.readProducts()
         const updatedProducts = products.map(product => {
             if (product.id === id) {

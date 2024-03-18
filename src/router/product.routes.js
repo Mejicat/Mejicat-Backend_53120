@@ -5,13 +5,15 @@ const productRouter = Router ()
 
 const productsFinal = new ProductManager()
 
-productRouter.get ("/", async (req, res) => {
-    let limit = parseInt(req.query.limit)
-    if (!limit) return res.send (await productsFinal.readProducts())
-    let allProducts = await productsFinal.readProducts()
-    let productLimit = allProducts.slice (0,limit)
-    res.json (productLimit)
-})
+productRouter.get("/", async (req, res) => {
+    let limit = +req.query.limit
+    const products = await productsFinal.getProducts(limit)
+    res.render("home", {
+      style: "index.css",
+      products: products,
+      layout: "products",
+    })
+  })
 
 productRouter.get ("/:id", async (req, res) => {
     let id = parseInt(req.params.id)
