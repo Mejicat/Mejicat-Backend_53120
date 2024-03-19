@@ -31,8 +31,9 @@ export default class ProductManager {
             stock
         } = newProduct
     
-        if (!title || !description || !price || !thumbnail || !code || !stock) {
+        if (!title || !description || !price || !code || !stock) {
             return "Todos los campos del Producto son obligatorios"
+            //Quite a thumbnails para que no sea obligatorio enviarlo
         }
 
         const productToAdd = {

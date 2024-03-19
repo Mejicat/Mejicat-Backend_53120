@@ -17,20 +17,21 @@ function addProduct() {
   const thumbnailsInput = document.getElementById("thumbnails")
 
   // Verifico si algún elemento es null antes de acceder a su propiedad value
-  if (!titleInput || !descriptionInput || !priceInput || !codeInput || !stockInput || !thumbnailsInput) {
-    console.error("Uno o más elementos del formulario no existen en el DOM.")
-    return;
+  if (!titleInput || !descriptionInput || !priceInput || !codeInput || !stockInput) {
+    console.error("Uno o más elementos del formulario no existen en el DOM")
+    return
   }
 
-  const formData = new FormData()
-  formData.append("title", titleInput.value)
-  formData.append("description", descriptionInput.value)
-  formData.append("price", priceInput.value)
-  formData.append("code", codeInput.value)
-  formData.append("stock", stockInput.value)
-  formData.append("thumbnails", thumbnailsInput.value)
+  const obj = {
+    title: document.querySelector("#title").value,
+    description: document.querySelector("#description").value,
+    price: document.querySelector("#price").value,
+    code: document.querySelector("#code").value,
+    stock: document.querySelector("#stock").value,
+    thumbnails: document.querySelector("#thumbnails").value
+  }
 
-  socket.emit("addProduct", formData)
+  socket.emit("addProduct", obj)
 
   // Reseteo los campos del formulario
   titleInput.value = ""
@@ -42,9 +43,9 @@ function addProduct() {
 }
 
 function deleteProduct(productId) {
-  socket.emit("deleteProduct", +productId)
-  getProducts()
+  socket.emit("deleteProduct", productId)
 }
+
 
 function getProducts() {
   socket.emit("getProducts")

@@ -36,12 +36,22 @@ app.use("/", express.static(__dirname + "/public", {
     }
 }))
 
+
+/*app.get("/", async (req, res) => {
+  let allProducts = await productsFinal.getProducts()
+  res.render ("index", {
+    title: "Express|Handlebars",
+    products: allProducts,
+    styleRoute:  '<link href="css/styles.css" rel="stylesheet" > '
+  })
+})*/
+
 app.get("/", (req, res) => {
   res.send(`
     <html>
       <head>
         <title>Bienvenido a la juguetería online</title>
-        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="css/style.css">
       </head>
       <body>
       <main>
@@ -61,9 +71,10 @@ app.get("/", (req, res) => {
   `)
 })
 
+
 app.get("/realtimeproducts", async (req, res) => {
     res.render("realtimeproducts", {
-      style: "styles.css",
+      styleRoute: '<link href="css/styles.css" rel="stylesheet" > ',
       layout: "products",
     })
   })
@@ -75,7 +86,7 @@ socketServer.on("connection", (socket) => {
     socket.on("addProduct", async (newProduct) => {
       await productsFinal.addProduct(newProduct)
     })
-  
+
     socket.on("deleteProduct", async (productId) => {
       await productsFinal.deleteProduct(productId)
     })

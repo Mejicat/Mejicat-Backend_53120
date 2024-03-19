@@ -14,7 +14,7 @@
   "main": "main.js",
   "scripts": {
     "sass-watch":"sass --no-source-map --watch src/sass/styles.scss src/public/css/styles.css", 
-    "nodemon-watch":"nodemon src/app.js",
+    "nodemon-watch":"nodemon src/app.js & npm run sass-watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "npm-run-all --parallel sass-watch nodemon-watch"
   },
