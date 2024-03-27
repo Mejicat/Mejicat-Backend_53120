@@ -19,9 +19,7 @@ export default class ProductManager {
         await fs.writeFile (this.path, JSON.stringify(product))
     }
 
-    addProduct = async (newProduct) => {
-        this.id++
-    
+    async addProduct(newProduct) {
         const {
             title,
             description,
@@ -29,13 +27,19 @@ export default class ProductManager {
             thumbnail,
             code,
             stock
-        } = newProduct
-    
+        } = newProduct;
+
         if (!title || !description || !price || !code || !stock) {
             return "Todos los campos del Producto son obligatorios"
-            //Quite a thumbnails para que no sea obligatorio enviarlo
-        }
+        } // Quito oblgatoriedad de completar thumbnail
 
+        let products = await this.readProducts();
+        const existingProduct = products.find(product => product.code === code);
+        if (existingProduct) {
+            return "Ya existe un producto con el mismo código";
+        } // Agrego validación para no incorporar productos con código repetido
+
+        this.id++;
         const productToAdd = {
             title,
             description,
@@ -44,7 +48,7 @@ export default class ProductManager {
             code,
             stock,
             id: this.id
-        }
+        };
 
         let currentProducts = await this.readProducts()
         let productALL = [... currentProducts, productToAdd]

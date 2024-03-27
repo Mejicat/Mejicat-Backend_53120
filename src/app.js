@@ -30,81 +30,13 @@ app.set("views", path.resolve(__dirname + "/views"))
 //Static
 app.use("/", express.static(__dirname + "/public"))
 
-/*app.use("/", express.static(__dirname + "/public", {
-    setHeaders: (res, path, stat) => {
-        if (path.endsWith('.css')) {
-            res.setHeader('Content-Type', 'text/css')
-        }
-    }
-}))*/
-
-
-/*app.get("/", async (req, res) => {
-  let allProducts = await productsFinal.getProducts()
-  res.render ("index", {
-    title: "Express|Handlebars",
-    products: allProducts,
-    styleRoute:  '<link rel="stylesheet" href="css/{{style}}" />'
-  })
-})*/
-
+//Rutas
 app.get("/", (req, res) => {
-  res.send(`
-    <html>
-      <head>
-        <title>Bienvenido a la juguetería online</title>
-        <style>
-          body {
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-            background-color: azure;
-            padding: 20px;
-          }
-          .container {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-          }
-          h1 {
-            color: #333;
-          }
-          p {
-            color: #666;
-          }
-          .button {
-            background-color: darkcyan;
-            color: #fff;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 3px;
-            cursor: pointer;
-            margin-top: 10px;
-            font-family: Verdana, Geneva, Tahoma, sans-serif;
-          }
-          button:hover {
-            background-color: rgb(10, 3, 3);
-            color: white;
-          }
-        </style>
-      </head>
-      <body>
-      <main>
-        <h1>Agregar Productos</h1>
-       <div>
-      <h3> En caso que desees agregar un producto, procede al siguiente formulario </h3>
-      <button class="button" onclick="window.location.href='/realtimeproducts'">Agregar producto</button>
-       </div>
-      </main>
-      <script src="/js/index.js"></script>
-    </body>
-      </body>
-    </html>
-  `)
+  res.render("home", {
+    style: "styles.css",
+    layout: "products",
+  })
 })
-
 
 app.get("/realtimeproducts", async (req, res) => {
     res.render("realtimeproducts", {
@@ -113,6 +45,7 @@ app.get("/realtimeproducts", async (req, res) => {
     })
   })
 
+// Socket.io
 const socketServer = new Server(httpServer)
 socketServer.on("connection", (socket) => {
     console.log("Nuevo cliente conectado -----> ", socket.id);
