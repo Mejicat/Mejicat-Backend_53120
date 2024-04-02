@@ -6,6 +6,9 @@ import * as path from "path"
 import { __dirname } from "./utils.js"
 import ProductManager from "./components/ProductManager.js"
 import { Server } from "socket.io"
+import exphbs from "express-handlebars"
+import handlebars from "handlebars"
+
 
 const app = express()
 const PORT = 8080
@@ -27,6 +30,11 @@ app.engine("handlebars", engine())
 app.set("view engine", "handlebars")
 app.set("views", path.resolve(__dirname + "/views"))
 
+// Registro el parcial para habilitar el chat
+import fs from "fs";
+const chatPartial = fs.readFileSync(path.resolve(__dirname, "views/chat.handlebars"), "utf-8")
+handlebars.registerPartial('chat', chatPartial)
+
 //Static
 app.use("/", express.static(__dirname + "/public"))
 
@@ -45,10 +53,59 @@ app.get("/realtimeproducts", async (req, res) => {
     })
 })
 
+const message = []
+
 // Socket.io
 const socketServer = new Server(httpServer)
 socketServer.on("connection", (socket) => {
     console.log("Nuevo cliente conectado -----> ", socket.id)
+
+    // Nombre del usuario
+    let userName = ""
+
+    // Mensaje de conexión
+    socket.on('userConnection',(data)=>{
+      userName = data.user
+      message.push({
+        id: socket.id,
+        name: data.user,
+        message: `${data.user} conectado`,
+        date: new Date().toTimeString(),
+      })
+      socketServer.sockets.emit("userConnection", message)
+    })
+    // Mensaje de "Mensaje enviado"
+   /* socket.on('userMessage',(data)=>{
+      message.push({
+        id: socket.id,
+        name: userName,
+        message: data.message,
+        date: new Date().toTimeString(),
+      })
+      socketServer.sockets.emit("userMessage", message)
+    })
+*/
+socket.on('userMessage', (data) => {
+  const messageData = {
+      name: userName,
+      message: data.message,
+      date: new Date().toTimeString(),
+  };
+  
+  // Emitir el mensaje de vuelta al cliente que lo envió
+  /*socket.emit('userMessage', messageData)*/
+  // Emitir el mensaje a todos los clientes (incluido el remitente)
+  socketServer.emit('userMessage', messageData)
+});
+
+
+
+
+
+    // Mensaje de usuario escribiendo
+    socket.on('typing',(data)=>{
+      socket.broadcast.emit("typing", data)
+      })
 
     socket.on("addProduct", async (newProduct) => {
         const addedProduct = await productsFinal.addProduct(newProduct)

@@ -104,21 +104,112 @@ label.file-label:hover {
 input[type=text],
 input[type=number],
 input[type=button] {
-  width: 100%; /* Ancho completo del contenedor */
-  padding: 10px; /* Espaciado interno */
-  font-size: 16px; /* Tamaño de fuente */
-  border: 1px solid #ccc; /* Borde */
-  border-radius: 5px; /* Bordes redondeados */
-  box-sizing: border-box; /* Incluye el padding y border en el ancho total */
-  margin-bottom: 10px; /* Margen inferior para separación entre inputs */
+  width: 100%;
+  /* Ancho completo del contenedor */
+  padding: 10px;
+  /* Espaciado interno */
+  font-size: 16px;
+  /* Tamaño de fuente */
+  border: 1px solid #ccc;
+  /* Borde */
+  border-radius: 5px;
+  /* Bordes redondeados */
+  box-sizing: border-box;
+  /* Incluye el padding y border en el ancho total */
+  margin-bottom: 10px;
+  /* Margen inferior para separación entre inputs */
 }
 
 button {
-  padding: 10px 20px; /* Espaciado interno */
-  font-size: 16px; /* Tamaño de fuente */
-  border: none; /* Quita el borde */
-  border-radius: 5px; /* Bordes redondeados */
-  background-color: #007bff; /* Color de fondo */
-  color: #fff; /* Color del texto */
-  cursor: pointer; /* Cambia el cursor al pasar el ratón */
+  padding: 10px 20px;
+  /* Espaciado interno */
+  font-size: 16px;
+  /* Tamaño de fuente */
+  border: none;
+  /* Quita el borde */
+  border-radius: 5px;
+  /* Bordes redondeados */
+  background-color: #007bff;
+  /* Color de fondo */
+  color: #fff;
+  /* Color del texto */
+  cursor: pointer;
+  /* Cambia el cursor al pasar el ratón */
+}
+
+.Title {
+  margin-top: 15px;
+}
+
+.chatTitle {
+  margin-bottom: 30px;
+}
+
+.chatContainer {
+  width: 350px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  border-radius: 20px;
+  border: 2px solid black;
+  box-shadow: 0px 0px 5px rgb(126, 126, 126);
+}
+.chatContainer header {
+  position: relative;
+}
+.chatContainer header .userName {
+  margin-bottom: 15px;
+}
+.chatContainer header .typing {
+  width: 200px;
+  position: absolute;
+  top: 25px;
+  left: 0;
+}
+.chatContainer main {
+  width: 100%;
+}
+.chatContainer main .chatMessage {
+  width: 100%;
+  height: 200px;
+  border-radius: 20px;
+  border: 2px solid black;
+  box-shadow: 0px 0px 5px rgb(126, 126, 126);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+}
+.chatContainer main .chatMessage .connection {
+  align-self: center;
+}
+.chatContainer main .chatMessage .messageUser {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 5px;
+}
+.chatContainer main .chatMessage .otherUser {
+  align-items: flex-end;
+}
+.chatContainer footer {
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.chatContainer footer input {
+  all: unset;
+  width: 240px;
+  border-bottom: 2px solid black;
+  padding: 0px 0px 5px 5px;
 }
